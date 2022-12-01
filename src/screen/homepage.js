@@ -1,10 +1,20 @@
 import { useNavigation } from '@react-navigation/native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Image, Pressable, Text, TextInput, Touchable, ScrollView } from 'react-native'
+import { useSelector } from 'react-redux'
 import { styles } from '../style/style'
 
 export const HomePage = () => {
     const navigation = useNavigation()
+    const user = useSelector((state)=>state.data)
+    console.log(user);
+    // useEffect(()=>{
+
+    //     const paste = ()=>{
+    //         console.log(user);
+    //     }
+    //     paste
+    // },[])
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -32,6 +42,8 @@ export const HomePage = () => {
                 <TextInput style={styles.input}></TextInput>
             </View>
             <Pressable onPress={()=> navigation.navigate('profile')}>profile</Pressable>
+            <Pressable onPress={()=> navigation.navigate('book')}>book</Pressable>
+            <Pressable onPress={()=> navigation.navigate('history')}>history</Pressable>
             {/* <ScrollView style={{ paddingHorizontal: 24 }}>
 
                 <View style={styles.list}>

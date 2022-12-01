@@ -265,5 +265,71 @@ export const styles = StyleSheet.create({
         width:'60%',
         textAlign:'right'
 
+    },
+    bookList:{
+        width:'100%',
+        height:100,
+        backgroundColor:'#fff',
+        borderRadius:12,
+        padding:10,
+        flexDirection:'row',
+        marginBottom:12
+
+    },
+    bookImg:{
+        height:'100%',
+        width:80,
+        borderRadius:12
+    },
+    textBook:{
+        fontSize:14
+    },
+    bookChild:{
+        marginLeft:12,
+        justifyContent:'space-between'
+    },
+    subTextBook:{
+        fontSize:12,
+        marginVertical:6,
+        color:'#adb5bd'
+    },
+    price:{
+        fontSize:18,
+        fontWeight:'600',
+        color:'#FEE402'
+    },
+    inputBook:{
+        width:'100%',
+        height:40,
+        // backgroundColor:'#FEE402',
+        padding:12,
+        borderRadius:24,
+        justifyContent:'center',
+        alignItems:'center',
+        overflow:'hidden',
+        backgroundColor:'#f4f4f4',
+        marginVertical:12
+    },
+    inputChild:{
+        width:'110%',
+        height:100,
+        paddingVertical:11,
+        paddingHorizontal:12,
+        fontSize:16
+    },
+    struct:{
+        width:'100%',
+        borderColor:'#FEE402',
+        borderWidth:1,
+        borderRadius:12,
+        padding:12,
+        marginTop:12
+    },
+    structChild:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        // padding:12,
+        marginTop:12,
+        fontSize:16
     }
 });
