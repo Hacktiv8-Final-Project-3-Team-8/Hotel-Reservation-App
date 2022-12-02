@@ -1,13 +1,32 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Image, Pressable, Text, TextInput, Touchable, ScrollView } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { styles } from '../style/style'
+import { Feather } from '@expo/vector-icons';
+import { fetchCity } from '../redux/city_redux'
+import { ListCity } from '../component/listCity'
 
 export const HomePage = () => {
+
     const navigation = useNavigation()
-    const user = useSelector((state)=>state.data)
-    console.log(user);
+    const dispach = useDispatch()
+    const kota = useSelector((state) => state.city)
+    const { login } = useSelector((state) => state.login)
+    console.log(login);
+    const [city, setCity] = useState('')
+    const options = {
+        method: 'GET',
+        url: 'https://apidojo-booking-v1.p.rapidapi.com/locations/auto-complete',
+        params: { text: city, languagecode: 'en-us' },
+        headers: {
+            'X-RapidAPI-Key': '9db0cf554emsh5a13baf728234f3p13c768jsnd40c48fe7168',
+            'X-RapidAPI-Host': 'apidojo-booking-v1.p.rapidapi.com'
+        }
+    };
+    const search = () => {
+        dispach(fetchCity(options))
+    }
     // useEffect(()=>{
 
     //     const paste = ()=>{
@@ -18,20 +37,30 @@ export const HomePage = () => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Image
+
+                {/* <Image
                     style={styles.drawerImage}
                     source={{
                         uri: 'https://img.icons8.com/material-outlined/24/null/menu--v1.png',
                     }}
-                />
-                <Pressable style={styles.loginButton} onPress={() => navigation.push('login')}><Text>Login</Text></Pressable>
+                /> */}
+                <Text>TURU</Text>
+                {!login ?
+                    <Pressable style={styles.loginButton} onPress={() => navigation.push('login')}><Text>Login</Text></Pressable>
+                    :
+                    <Feather name="heart" size={24} color="black" />
+                }
             </View>
-            <View style={styles.greeting}>
-                <Text style={styles.textWhite}>Hello,</Text>
-                <Text style={styles.textWhite}>Abdillah Zikri</Text>
-            </View>
+            {login ?
+                <View style={styles.greeting}>
+                    <Text style={styles.textWhite}>Hello,</Text>
+                    <Text style={styles.textWhite}>{login.email}</Text>
+                </View>
+                :
+                <View />
+            }
             <View style={styles.searchBox}>
-                <Pressable style={styles.searchBtn} onPress={() => navigation.navigate('detail')} >
+                <Pressable style={styles.searchBtn} onPress={search} >
                     <Image
                         style={styles.searchImg}
                         source={{
@@ -39,11 +68,19 @@ export const HomePage = () => {
                         }}
                     />
                 </Pressable>
-                <TextInput style={styles.input}></TextInput>
+                <TextInput style={styles.input} onChangeText={(val) => setCity(val)}></TextInput>
             </View>
-            <Pressable onPress={()=> navigation.navigate('profile')}>profile</Pressable>
-            <Pressable onPress={()=> navigation.navigate('book')}>book</Pressable>
-            <Pressable onPress={()=> navigation.navigate('history')}>history</Pressable>
+            {/* <Pressable onPress={() => navigation.navigate('book')}>book</Pressable> */}
+            <ScrollView style={{ paddingHorizontal: 24, width: '100%' }}>
+                {kota.city.length > 0
+                ? kota.city.map((val)=>(
+
+                    <ListCity data={val}/>
+                ))
+                :
+                <Text>Kamu</Text>
+                }
+            </ScrollView>
             {/* <ScrollView style={{ paddingHorizontal: 24 }}>
 
                 <View style={styles.list}>

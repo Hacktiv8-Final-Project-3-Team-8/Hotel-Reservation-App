@@ -1,8 +1,18 @@
+import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { Pressable, TextInput, View } from 'react-native'
+import { useDispatch } from 'react-redux'
+import { userLogout } from '../redux/user_login'
 import { styles } from '../style/style'
 
 export const Profile = () => {
+    const dispach = useDispatch()
+    const navigation = useNavigation()
+
+    const logout = ()=>{
+        dispach(userLogout())
+        navigation.navigate('home')
+    }
     return (
         <View style={[styles.container, { padding: 24 }]}>
             <View style={styles.profileTitle}>My Profiles</View>
@@ -41,7 +51,7 @@ export const Profile = () => {
                 <Pressable style={styles.profileValue}>Help</Pressable>
             </View>
             <View style={styles.profileList}>
-                <Pressable style={[styles.profileValue,{color : '#121212'}]}>Log Out</Pressable>
+                <Pressable style={[styles.profileValue,{color : '#121212'}]} onPress={logout}>Log Out</Pressable>
             </View>
         </View>
     )
