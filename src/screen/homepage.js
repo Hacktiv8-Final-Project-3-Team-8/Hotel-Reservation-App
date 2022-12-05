@@ -6,34 +6,42 @@ import { styles } from '../style/style'
 import { Feather } from '@expo/vector-icons';
 import { fetchCity } from '../redux/city_redux'
 import { ListCity } from '../component/listCity'
+import { popular, top_destination } from '../data/top'
+import { reset } from '../redux/city_redux'
+import { ListHotel } from '../component/listHotel'
+
+import {fetchHotel} from '../redux/hotel.js'
 
 export const HomePage = () => {
 
     const navigation = useNavigation()
     const dispach = useDispatch()
     const kota = useSelector((state) => state.city)
-    const { login } = useSelector((state) => state.login)
+    const {hotel,loading} = useSelector((state)=>state.hotel)
+    const { login, history } = useSelector((state) => state.login)
     console.log(login);
+    console.log(history);
     const [city, setCity] = useState('')
-    const options = {
-        method: 'GET',
-        url: 'https://apidojo-booking-v1.p.rapidapi.com/locations/auto-complete',
-        params: { text: city, languagecode: 'en-us' },
-        headers: {
-            'X-RapidAPI-Key': '9db0cf554emsh5a13baf728234f3p13c768jsnd40c48fe7168',
-            'X-RapidAPI-Host': 'apidojo-booking-v1.p.rapidapi.com'
-        }
-    };
-    const search = () => {
+    const ress = ()=>{
+        console.log('kamu');
+        dispach(reset('miliku'))
+    }
+    const search = (kota) => {
+        const options = {
+            method: 'GET',
+            url: 'https://apidojo-booking-v1.p.rapidapi.com/locations/auto-complete',
+            params: { text: kota, languagecode: 'en-us' },
+            headers: {
+                'X-RapidAPI-Key': '9db0cf554emsh5a13baf728234f3p13c768jsnd40c48fe7168',
+                'X-RapidAPI-Host': 'apidojo-booking-v1.p.rapidapi.com'
+            }
+        };
         dispach(fetchCity(options))
     }
-    // useEffect(()=>{
+    useEffect(()=>{
 
-    //     const paste = ()=>{
-    //         console.log(user);
-    //     }
-    //     paste
-    // },[])
+        dispach(fetchHotel("20088325"))
+    },[])
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -44,7 +52,10 @@ export const HomePage = () => {
                         uri: 'https://img.icons8.com/material-outlined/24/null/menu--v1.png',
                     }}
                 /> */}
-                <Text>TURU</Text>
+                <Pressable onPress={ress}>
+
+                    <Text style={{fontSize:18}}>TURU</Text>
+                </Pressable>
                 {!login ?
                     <Pressable style={styles.loginButton} onPress={() => navigation.push('login')}><Text>Login</Text></Pressable>
                     :
@@ -59,8 +70,11 @@ export const HomePage = () => {
                 :
                 <View />
             }
+            
+
+            <ScrollView style={{ paddingHorizontal: 24, width: '100%' }}>
             <View style={styles.searchBox}>
-                <Pressable style={styles.searchBtn} onPress={search} >
+                <Pressable style={styles.searchBtn} onPress={() => search(city)} >
                     <Image
                         style={styles.searchImg}
                         source={{
@@ -70,15 +84,54 @@ export const HomePage = () => {
                 </Pressable>
                 <TextInput style={styles.input} onChangeText={(val) => setCity(val)}></TextInput>
             </View>
-            {/* <Pressable onPress={() => navigation.navigate('book')}>book</Pressable> */}
-            <ScrollView style={{ paddingHorizontal: 24, width: '100%' }}>
                 {kota.city.length > 0
-                ? kota.city.map((val)=>(
+                    ? kota.city.map((val) => (
 
-                    <ListCity data={val}/>
-                ))
-                :
-                <Text>Kamu</Text>
+                        <ListCity data={val} />
+                    ))
+                    :
+                    // <Text>Kamu</Text>
+                    <>
+                        <Text style={{fontWeight:'600',fontSize:18,marginVertical:12}}>Top Destination</Text>
+                        <View style={{ height: 120 ,marginBottom:24}}>
+                            <ScrollView horizontal={true} >
+                                {top_destination.map((val) => (
+
+                                    <Pressable style={styles.slider1} onPress={() => search(val.name)}>
+                                        <Image
+                                            style={{ width: 120, height: 120, borderRadius: 12 }}
+                                            source={{
+                                                uri: val.img_uri,
+                                            }}
+                                        />
+                                        <Text style={{ position: 'absolute', bottom: 12, left: 10, fontSize: 16, fontWeight: '600', color: '#fff' }}>{val.name}</Text>
+                                    </Pressable>
+                                ))}
+                            </ScrollView>
+                        </View>
+                        <Text style={{fontWeight:'600',fontSize:18,marginVertical:12}}>Top Destination</Text>
+                        <View style={{ height: 120 ,marginBottom:24}}>
+                            <ScrollView horizontal={true} >
+                                {popular.map((val) => (
+
+                                    <Pressable style={styles.slider1} onPress={() => search(val.name)}>
+                                        <Image
+                                            style={{ width: 120, height: 120, borderRadius: 12 }}
+                                            source={{
+                                                uri: val.img_uri,
+                                            }}
+                                        />
+                                        <Text style={{ position: 'absolute', bottom: 12, left: 10, fontSize: 16, fontWeight: '600', color: '#fff' }}>{val.name}</Text>
+                                    </Pressable>
+                                ))}
+                            </ScrollView>
+                        </View>
+                        <Text style={{fontWeight:'600',fontSize:18,marginVertical:12}}>Recently</Text>
+                        {hotel.map((data,ind)=>(
+                <ListHotel key={ind} data={data}/>
+                // <Text>{JSON.stringify(data)}</Text>
+            ))}
+                    </>
                 }
             </ScrollView>
             {/* <ScrollView style={{ paddingHorizontal: 24 }}>

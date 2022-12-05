@@ -13,7 +13,12 @@ export const fetchCity = createAsyncThunk("user/fetchCity", async (url) => {
 const citySlice = createSlice({
     name: 'city',
     initialState,
-    reducers: {},
+    reducers: {
+        reset:(state,action)=>{
+            state.city = []
+            console.log(action.payload);
+        }
+    },
     extraReducers(builder) {
         builder.addCase(fetchCity.fulfilled, (state, action) => {
             return { ...state, city: action.payload }
@@ -23,4 +28,6 @@ const citySlice = createSlice({
 
 })
 
+
+export const {reset} = citySlice.actions
 export default citySlice.reducer

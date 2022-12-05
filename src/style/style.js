@@ -123,7 +123,7 @@ export const styles = StyleSheet.create({
     },
     searchBox: {
         width: '100%',
-        paddingHorizontal: 24,
+        // paddingHorizontal: 24,
         flexDirection: 'row-reverse',
         alignItems: 'center',
 
@@ -217,7 +217,7 @@ export const styles = StyleSheet.create({
         backgroundColor: '#fff',
         position: 'absolute',
         bottom: 0,
-        opacity: 0.5,
+        // opacity: 0.5,
         borderBottomLeftRadius: 12,
         borderBottomRightRadius: 12
     },
@@ -343,10 +343,10 @@ export const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         // backgroundColor: '#121212',
-        height: 70,
+        height: 80,
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: 12,
+        padding: 12,
         borderBottomLeftRadius:12,
         borderBottomRightRadius:12
     },
@@ -360,4 +360,15 @@ export const styles = StyleSheet.create({
         color: '#121212',
         fontSize: 14
     },
+    hotel:{
+        padding:24,
+        width:'100%'
+    },
+    slider1:{
+        width:120,
+        height:120,
+        // backgroundColor:'black',
+        marginRight:24,
+        borderRadius:12
+    }
 });

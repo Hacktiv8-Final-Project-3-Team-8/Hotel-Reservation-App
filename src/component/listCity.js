@@ -1,8 +1,10 @@
+import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { View, Image, Pressable,Text } from 'react-native'
 import { styles } from '../style/style'
 
 export const ListCity = ({data}) => {
+    const navigation = useNavigation()
     return (
         <View style={styles.listCity}>
             <Image
@@ -13,7 +15,7 @@ export const ListCity = ({data}) => {
             />
             <View style={styles.wrapper}>
                 <Text style={{ fontSize: 16 }}>{data.name}</Text>
-                <Pressable style={[styles.viewMore]}>View More</Pressable>
+                <Pressable style={[styles.viewMore]} onPress={()=>navigation.navigate('hotel',{destination:data.dest_id})}>View More</Pressable>
             </View>
         </View>
     )

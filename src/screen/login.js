@@ -23,6 +23,7 @@ export default function Login() {
     email: email,
     password: passw,
     gender: '',
+    addres:'',
     history:[],
     like:[]
   }
