@@ -28,7 +28,7 @@ const options = {
       travel_purpose: 'leisure'
     },
     headers: {
-      'X-RapidAPI-Key': '9db0cf554emsh5a13baf728234f3p13c768jsnd40c48fe7168',
+      'X-RapidAPI-Key': 'e9fea85265msh7e1ff19341e6ac8p17cd32jsn4bae898ad259',
       'X-RapidAPI-Host': 'apidojo-booking-v1.p.rapidapi.com'
     }
   };

@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { View, Image, Pressable, Text, TextInput, Touchable, ScrollView } from 'react-native'
+import { View, Image, Pressable, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { styles } from '../style/style'
 import { Feather } from '@expo/vector-icons';
@@ -36,7 +36,7 @@ export const HomePage = () => {
             url: 'https://apidojo-booking-v1.p.rapidapi.com/locations/auto-complete',
             params: { text: kota, languagecode: 'en-us' },
             headers: {
-                'X-RapidAPI-Key': '9db0cf554emsh5a13baf728234f3p13c768jsnd40c48fe7168',
+                'X-RapidAPI-Key': 'e9fea85265msh7e1ff19341e6ac8p17cd32jsn4bae898ad259',
                 'X-RapidAPI-Host': 'apidojo-booking-v1.p.rapidapi.com'
             }
         };
@@ -77,7 +77,7 @@ export const HomePage = () => {
                 {!login ?
                     <Pressable style={styles.loginButton} onPress={() => navigation.push('login')}><Text>Login</Text></Pressable>
                     :
-                    <Feather name="heart" size={24} color="black" />
+                    <TouchableOpacity onPress={() => navigation.push('wishlist')}><Feather name="heart" size={24} color="black"/></TouchableOpacity>
                 }
             </View>
             {login ?

@@ -5,6 +5,7 @@ import dataReducer from '../redux/user_redux.js'
 import loginReducer from '../redux/user_login.js'
 import cityReducer from '../redux/city_redux.js'
 import likereducer from '../redux/wish.js'
+import saveHotel from "../redux/saveHotel.js";
 
 export const store = configureStore({
     reducer : {
@@ -13,6 +14,7 @@ export const store = configureStore({
         data : dataReducer,
         login: loginReducer,
         city: cityReducer,
-        like:likereducer
+        like: likereducer,
+        savedHotel: saveHotel,
     }
 })

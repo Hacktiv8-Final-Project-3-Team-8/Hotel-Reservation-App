@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { View, Pressable, Text, Image } from 'react-native'
+import { View, Pressable, Text, Image, TouchableOpacity } from 'react-native'
 import { styles } from '../style/style'
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLike, userUnlike } from '../redux/user_login';
 import { liking, unliking } from '../redux/wish';
+import { addHotel, deleteHotel } from "../redux/saveHotel";
+
 
 export const ListHotel = ({ data }) => {
     const { login} = useSelector((state) => state.login)
@@ -13,6 +15,18 @@ export const ListHotel = ({ data }) => {
     const [color,setColor]  = useState('gray')
     const navigation = useNavigation()
     const dispach = useDispatch()
+
+    const savedHotel = useSelector((state) => state.savedHotel);
+  
+    const handleSaveHotel = () => {
+      dispach(addHotel(data));
+      console.log("tol");
+    };
+  
+    const handleDeleteHotel = (url) => {
+      dispach(deleteHotel(url));
+    };
+
     const isSaved = () => {
         like === 0
             ?
@@ -74,9 +88,15 @@ export const ListHotel = ({ data }) => {
     }
     return (
         <View style={[styles.listCity, { backgroundColor: '#fff',zIndex:1 }]}>
-            <Pressable style={[styles.love, { alignItems: 'center', justifyContent: 'center' }]} onPress={ngelike}>
-                <AntDesign name="heart" size={16} color={color} />
-            </Pressable>
+            {savedHotel.some((e) => e.url === data.url) ? (
+            <TouchableOpacity style={[styles.love, { alignItems: 'center', justifyContent: 'center' }]} onPress={() => handleDeleteHotel(data.url)}>
+                <AntDesign name="heart" size={16} color='red' />
+            </TouchableOpacity>
+            ) : (
+            <TouchableOpacity style={[styles.love, { alignItems: 'center', justifyContent: 'center' }]} onPress={handleSaveHotel}>
+                <AntDesign name="heart" size={16} color='gray' />
+            </TouchableOpacity>
+              )}
             <Image
                 style={[styles.detailImg, { height: 160, borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }]}
                 source={{
