@@ -1,20 +1,55 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect } from 'react'
-import { View, Image, Pressable, Text, TextInput, Touchable, ScrollView } from 'react-native'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { View, Image, Pressable, Text, TextInput, Touchable, ScrollView, TouchableOpacity } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import { styles } from '../style/style'
 
 export const HomePage = () => {
     const navigation = useNavigation()
-    const user = useSelector((state)=>state.data)
-    console.log(user);
-    // useEffect(()=>{
+    const dispach = useDispatch()
+    const { city, loading } = useSelector((state) => state.city)
+    const { login, history } = useSelector((state) => state.login)
+    // console.log(login);
+    // console.log(history);
+    const [color1, setColor1] = useState('#f4f4f4')
+    const [color2, setColor2] = useState('#f4f4f4')
+    const [kota, setTown] = useState('')
+    const [checkin, setCheckin] = useState('')
+    const [checkout, setCheckout] = useState('')
+    const ress = () => {
+        console.log('kamu');
+        dispach(reset('miliku'))
+    }
+    const search = (kota) => {
+        const options = {
+            method: 'GET',
+            url: 'https://apidojo-booking-v1.p.rapidapi.com/locations/auto-complete',
+            params: { text: kota, languagecode: 'en-us' },
+            headers: {
+                'X-RapidAPI-Key': 'bb989f74famsh37e642c1a3d1bb3p134330jsn69c1fb1795e4',
+                'X-RapidAPI-Host': 'apidojo-booking-v1.p.rapidapi.com'
+            }
+        };
+        if (checkin === '') {
+            if (checkout === '') {
 
-    //     const paste = ()=>{
-    //         console.log(user);
-    //     }
-    //     paste
-    // },[])
+                setColor1('#f9dedc')
+                setColor2('#f9dedc')
+            }
+            setColor1('#f9dedc')
+        }
+        else if (checkout === '') {
+            setColor2('#f9dedc')
+        }
+        else {
+
+            dispach(fetchCity(options))
+        }
+    }
+    // useEffect(() => {
+
+    //     dispach(fetchHotel("20088325"))
+    // }, [])
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -39,7 +74,12 @@ export const HomePage = () => {
                         }}
                     />
                 </Pressable>
-                <TextInput style={styles.input}></TextInput>
+                {!login ?
+                    <Pressable style={styles.loginButton} onPress={() => navigation.push('login')}><Text>Login</Text></Pressable>
+                    :
+                    <TouchableOpacity onPress={() => navigation.push('wishlist')}><Feather name="heart" size={24} color="black"/></TouchableOpacity>
+                    
+                }
             </View>
             <Pressable onPress={()=> navigation.navigate('profile')}>profile</Pressable>
             <Pressable onPress={()=> navigation.navigate('book')}>book</Pressable>

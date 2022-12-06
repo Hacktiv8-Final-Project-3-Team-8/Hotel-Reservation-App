@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
     hotel: [],
+    loading : false
 };
 
 export const fetchHotel = createAsyncThunk("hotel/fetchHotel", async (dest) => {
@@ -12,10 +13,10 @@ const options = {
     url: 'https://apidojo-booking-v1.p.rapidapi.com/properties/list',
     params: {
       offset: '0',
-      arrival_date: dest.checkin,
-      departure_date: dest.checkout,
+      arrival_date: '2022-12-22',
+      departure_date: '2022-12-23',
       guest_qty: '1',
-      dest_ids: dest.destination,
+      dest_ids: '-3712125',
       room_qty: '1',
       search_type: 'city',
       children_qty: '2',
@@ -42,13 +43,15 @@ const hotelSlice = createSlice({
     reducers: {},
     extraReducers(builder) {
         builder.addCase(fetchHotel.fulfilled, (state, action) => {
-            if (state.hotel.length === 0) {
-                console.log(action.payload);
-                return { ...state, hotel: action.payload };
-            } else {
-                console.log("hotel udah ada");
+            console.log('did it');
+            console.log(action.payload.result);
+            return {...state,hotel:action.payload.result,loading:false}
+        })
+        .addCase(
+            fetchHotel.pending,(state)=>{
+                return {...state,loading:true}
             }
-        });
+        )
     },
 });
 

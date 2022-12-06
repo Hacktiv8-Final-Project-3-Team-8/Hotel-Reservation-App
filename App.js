@@ -15,6 +15,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Profile } from './src/screen/profile';
 import { History } from './src/screen/history';
+import { Home } from './src/screen/home';
+import { Hotel } from './src/screen/hotel';
+import { Wishlist } from './src/screen/wishlist';
 // import { fetchHotel } from './src/redux/hotel';
 
 export default function App() {
@@ -46,7 +49,9 @@ export default function App() {
           <Stack.Screen name='detail' component={Detail} options={{headerTitleAlign:'center',headerTitle:'Detail',headerShadowVisible:false}}></Stack.Screen>
           <Stack.Screen name='profile' component={Profile} options={{headerTitleAlign:'center',headerTitle:'Profile',headerShadowVisible:false}}></Stack.Screen>
           <Stack.Screen name='book' component={Book} options={{headerTitleAlign:'center',headerTitle:'Booking',headerShadowVisible:false}}></Stack.Screen>
-          <Stack.Screen name='history' component={History} options={{headerTitleAlign:'center',headerTitle:'History',headerShadowVisible:false}}></Stack.Screen>
+          <Stack.Screen name='wishlist' component={Wishlist} options={{headerTitleAlign:'center',headerTitle:'Wishlist',headerShadowVisible:false}}></Stack.Screen>
+          {/* <Stack.Screen name='profile' component={Profile} options={{headerTitleAlign:'center',headerTitle:'Profile',headerShadowVisible:false}}></Stack.Screen>
+          <Stack.Screen name='history' component={History} options={{headerTitleAlign:'center',headerTitle:'History',headerShadowVisible:false}}></Stack.Screen> */}
         </Stack.Navigator>
       </NavigationContainer>
       {/* <Login/> */}

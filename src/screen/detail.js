@@ -5,6 +5,17 @@ import { styles } from '../style/style'
 
 export const Detail = () => {
     const navigation = useNavigation()
+    const checkout = ()=>{
+        if(login === ''){
+
+            navigation.push('login')
+        }else{
+            // dispach(userHistory())
+            navigation.navigate('book',{description:data})
+        }
+        
+    }
+    console.log(route.params.description);
     return (
             <SafeAreaView style={styles.container}>
                 <ScrollView>
