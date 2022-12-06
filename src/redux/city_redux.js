@@ -2,7 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-    city: []
+    city: [],
+    loading:false
 }
 
 export const fetchCity = createAsyncThunk("user/fetchCity", async (url) => {
@@ -21,7 +22,10 @@ const citySlice = createSlice({
     },
     extraReducers(builder) {
         builder.addCase(fetchCity.fulfilled, (state, action) => {
-            return { ...state, city: action.payload }
+            return { ...state, city: action.payload,loading:false }
+        })
+        .addCase(fetchCity.pending,(state)=>{
+            return {...state,loading:true}
         })
     }
 

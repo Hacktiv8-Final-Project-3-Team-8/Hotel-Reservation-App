@@ -4,6 +4,7 @@ import userreduc from '../redux/user.js'
 import dataReducer from '../redux/user_redux.js'
 import loginReducer from '../redux/user_login.js'
 import cityReducer from '../redux/city_redux.js'
+import likereducer from '../redux/wish.js'
 
 export const store = configureStore({
     reducer : {
@@ -11,6 +12,7 @@ export const store = configureStore({
         user : userreduc,
         data : dataReducer,
         login: loginReducer,
-        city: cityReducer
+        city: cityReducer,
+        like:likereducer
     }
 })

@@ -44,7 +44,7 @@ export const Book = () => {
           <TextInput placeholder='+62' style={styles.inputChild}></TextInput>
         </View>
         <View style={[styles.inputBook, { width: '70%' }]}>
-          <TextInput placeholder='+62' style={styles.inputChild}></TextInput>
+          <TextInput placeholder='phone number' style={styles.inputChild}></TextInput>
         </View>
         {/* <Input placeholder={'+62'} width={'27%'} />
         <Input placeholder={'phone number'} width={'70%'} /> */}

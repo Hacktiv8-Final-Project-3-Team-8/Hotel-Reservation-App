@@ -99,7 +99,7 @@ export const styles = StyleSheet.create({
     },
     greeting: {
         width: '100%',
-        padding: 24,
+        padding: 16,
     },
     textWhite: {
         fontSize: 24,

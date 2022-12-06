@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
 import { Pressable, Text, TextInput, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import { Exept } from '../component/exept'
 import { editUser, userLogout } from '../redux/user_login'
 import { styles } from '../style/style'
 
@@ -38,7 +39,7 @@ export const Profile = () => {
         dispach(editUser(template))
     }
     if (login === '') {
-        return <Text>Kamu belom login</Text>
+        return <Exept/>
     } return (
         <View style={[styles.container, { padding: 24 }]}>
             <View style={styles.profileTitle}>

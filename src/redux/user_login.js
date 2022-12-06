@@ -20,7 +20,9 @@ const loginSlice = createSlice({
             state.login = ''
         },
         userLike: (state, action) => {
+
             state.like.push(action.payload)
+            console.log(action.payload);
         },
         userUnlike: (state, action) => {
             const index = state.like.findIndex((val) => val === action.payload)

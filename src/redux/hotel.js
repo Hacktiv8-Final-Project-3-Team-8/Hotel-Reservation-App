@@ -13,10 +13,10 @@ const options = {
     url: 'https://apidojo-booking-v1.p.rapidapi.com/properties/list',
     params: {
       offset: '0',
-      arrival_date: '2022-12-16',
-      departure_date: '2022-12-17',
+      arrival_date: dest.checkin,
+      departure_date: dest.checkout,
       guest_qty: '1',
-      dest_ids: dest,
+      dest_ids: dest.destination,
       room_qty: '1',
       search_type: 'city',
       children_qty: '2',

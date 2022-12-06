@@ -10,19 +10,23 @@ import { popular, top_destination } from '../data/top'
 import { reset } from '../redux/city_redux'
 import { ListHotel } from '../component/listHotel'
 
-import {fetchHotel} from '../redux/hotel.js'
+import { fetchHotel } from '../redux/hotel.js'
+import { Loading } from '../component/loading'
 
 export const HomePage = () => {
 
     const navigation = useNavigation()
     const dispach = useDispatch()
-    const kota = useSelector((state) => state.city)
-    const {hotel,loading} = useSelector((state)=>state.hotel)
+    const { city, loading } = useSelector((state) => state.city)
     const { login, history } = useSelector((state) => state.login)
-    console.log(login);
-    console.log(history);
-    const [city, setCity] = useState('')
-    const ress = ()=>{
+    // console.log(login);
+    // console.log(history);
+    const [color1, setColor1] = useState('#f4f4f4')
+    const [color2, setColor2] = useState('#f4f4f4')
+    const [kota, setTown] = useState('')
+    const [checkin, setCheckin] = useState('')
+    const [checkout, setCheckout] = useState('')
+    const ress = () => {
         console.log('kamu');
         dispach(reset('miliku'))
     }
@@ -36,12 +40,26 @@ export const HomePage = () => {
                 'X-RapidAPI-Host': 'apidojo-booking-v1.p.rapidapi.com'
             }
         };
-        dispach(fetchCity(options))
-    }
-    useEffect(()=>{
+        if (checkin === '') {
+            if (checkout === '') {
 
-        dispach(fetchHotel("20088325"))
-    },[])
+                setColor1('#f9dedc')
+                setColor2('#f9dedc')
+            }
+            setColor1('#f9dedc')
+        }
+        else if (checkout === '') {
+            setColor2('#f9dedc')
+        }
+        else {
+
+            dispach(fetchCity(options))
+        }
+    }
+    // useEffect(() => {
+
+    //     dispach(fetchHotel("20088325"))
+    // }, [])
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -54,7 +72,7 @@ export const HomePage = () => {
                 /> */}
                 <Pressable onPress={ress}>
 
-                    <Text style={{fontSize:18}}>TURU</Text>
+                    <Text style={{ fontSize: 18 }}>TURU</Text>
                 </Pressable>
                 {!login ?
                     <Pressable style={styles.loginButton} onPress={() => navigation.push('login')}><Text>Login</Text></Pressable>
@@ -70,68 +88,91 @@ export const HomePage = () => {
                 :
                 <View />
             }
-            
+
 
             <ScrollView style={{ paddingHorizontal: 24, width: '100%' }}>
-            <View style={styles.searchBox}>
-                <Pressable style={styles.searchBtn} onPress={() => search(city)} >
-                    <Image
-                        style={styles.searchImg}
-                        source={{
-                            uri: 'https://img.icons8.com/ios-glyphs/30/null/search--v1.png',
-                        }}
-                    />
-                </Pressable>
-                <TextInput style={styles.input} onChangeText={(val) => setCity(val)}></TextInput>
-            </View>
-                {kota.city.length > 0
-                    ? kota.city.map((val) => (
+                <View style={styles.searchBox}>
+                    <Pressable style={styles.searchBtn} onPress={() => search(kota)} >
+                        <Image
+                            style={styles.searchImg}
+                            source={{
+                                uri: 'https://img.icons8.com/ios-glyphs/30/null/search--v1.png',
+                            }}
+                        />
+                    </Pressable>
+                    <TextInput placeholderTextColor='gray' placeholder='find your destination' style={styles.input} onChangeText={(val) => setTown(val)}></TextInput>
+                </View>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <View style={{ width: '45%' }}>
+                        <Text style={{ marginLeft: 12 }}>Check In</Text>
+                        <TextInput onChangeText={(val) => {
+                            setCheckin(val)
+                            setColor1('#f4f4f4')
+                        }} placeholderTextColor='gray' placeholder='yyyy-mm-dd' style={[styles.input, { backgroundColor: color1 }]}></TextInput>
+                    </View>
+                    <View style={{ width: '45%' }}>
+                        <Text style={{ marginLeft: 12 }}>Check Out</Text>
+                        <TextInput onChangeText={(val) => {
+                            setCheckout(val)
+                            setColor2('#f4f4f4')
+                        }} placeholderTextColor='gray' placeholder='yyyy-mm-dd' style={[styles.input, { backgroundColor: color2 }]}></TextInput>
+                    </View>
 
-                        <ListCity data={val} />
-                    ))
-                    :
-                    // <Text>Kamu</Text>
-                    <>
-                        <Text style={{fontWeight:'600',fontSize:18,marginVertical:12}}>Top Destination</Text>
-                        <View style={{ height: 120 ,marginBottom:24}}>
-                            <ScrollView horizontal={true} >
-                                {top_destination.map((val) => (
+                </View>
+                {
+                    loading
+                        ?
+                        <Loading />
+                        :
 
-                                    <Pressable style={styles.slider1} onPress={() => search(val.name)}>
-                                        <Image
-                                            style={{ width: 120, height: 120, borderRadius: 12 }}
-                                            source={{
-                                                uri: val.img_uri,
-                                            }}
-                                        />
-                                        <Text style={{ position: 'absolute', bottom: 12, left: 10, fontSize: 16, fontWeight: '600', color: '#fff' }}>{val.name}</Text>
-                                    </Pressable>
-                                ))}
-                            </ScrollView>
-                        </View>
-                        <Text style={{fontWeight:'600',fontSize:18,marginVertical:12}}>Top Destination</Text>
-                        <View style={{ height: 120 ,marginBottom:24}}>
-                            <ScrollView horizontal={true} >
-                                {popular.map((val) => (
+                        city.length > 0
+                            ? city.map((val,ind) => (
 
-                                    <Pressable style={styles.slider1} onPress={() => search(val.name)}>
-                                        <Image
-                                            style={{ width: 120, height: 120, borderRadius: 12 }}
-                                            source={{
-                                                uri: val.img_uri,
-                                            }}
-                                        />
-                                        <Text style={{ position: 'absolute', bottom: 12, left: 10, fontSize: 16, fontWeight: '600', color: '#fff' }}>{val.name}</Text>
-                                    </Pressable>
-                                ))}
-                            </ScrollView>
-                        </View>
-                        <Text style={{fontWeight:'600',fontSize:18,marginVertical:12}}>Recently</Text>
-                        {hotel.map((data,ind)=>(
-                <ListHotel key={ind} data={data}/>
-                // <Text>{JSON.stringify(data)}</Text>
-            ))}
-                    </>
+                                <ListCity key={ind} data={val} checkin={checkin} checkout={checkout} />
+                            ))
+                            :
+                            // <Text>Kamu</Text>
+                            <>
+                                <Text style={{ fontWeight: '600', fontSize: 18, marginVertical: 12 }}>Top Destination</Text>
+                                <View style={{ height: 120, marginBottom: 24 }}>
+                                    <ScrollView horizontal={true} >
+                                        {top_destination.map((val,ind) => (
+
+                                            <Pressable key={ind} style={styles.slider1} onPress={() => search(val.name)}>
+                                                <Image
+                                                    style={{ width: 120, height: 120, borderRadius: 12 }}
+                                                    source={{
+                                                        uri: val.img_uri,
+                                                    }}
+                                                />
+                                                <Text style={{ position: 'absolute', bottom: 12, left: 10, fontSize: 16, fontWeight: '600', color: '#fff' }}>{val.name}</Text>
+                                            </Pressable>
+                                        ))}
+                                    </ScrollView>
+                                </View>
+                                <Text style={{ fontWeight: '600', fontSize: 18, marginVertical: 12 }}>Top Destination</Text>
+                                <View style={{ height: 120, marginBottom: 24 }}>
+                                    <ScrollView horizontal={true} >
+                                        {popular.map((val,ind) => (
+
+                                            <Pressable key={ind} style={styles.slider1} onPress={() => search(val.name)}>
+                                                <Image
+                                                    style={{ width: 120, height: 120, borderRadius: 12 }}
+                                                    source={{
+                                                        uri: val.img_uri,
+                                                    }}
+                                                />
+                                                <Text style={{ position: 'absolute', bottom: 12, left: 10, fontSize: 16, fontWeight: '600', color: '#fff' }}>{val.name}</Text>
+                                            </Pressable>
+                                        ))}
+                                    </ScrollView>
+                                </View>
+                                {/* <Text style={{ fontWeight: '600', fontSize: 18, marginVertical: 12 }}>Recently</Text> */}
+                                {/* {hotel.map((data, ind) => (
+                            <ListHotel key={ind} data={data} />
+                            // <Text>{JSON.stringify(data)}</Text>
+                        ))} */}
+                            </>
                 }
             </ScrollView>
             {/* <ScrollView style={{ paddingHorizontal: 24 }}>
