@@ -77,7 +77,9 @@ export const HomePage = () => {
                 {!login ?
                     <Pressable style={styles.loginButton} onPress={() => navigation.push('login')}><Text>Login</Text></Pressable>
                     :
-                    <Feather name="heart" size={24} color="black" />
+                    <Pressable onPress={()=>navigation.navigate('wishlist')}>
+                        <Feather name="heart" size={24} color="black" />
+                    </Pressable>
                 }
             </View>
             {login ?

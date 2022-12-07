@@ -13,7 +13,7 @@ export const BookList = ({data}) => {
         />
         <View style={styles.bookChild}>
           <Text style={styles.textBook}>{data.hotel_name}</Text>
-          <Text style={styles.subTextBook}>Jl.Sisingamaraja,Medan</Text>
+          <Text style={styles.subTextBook}>{data.addres}</Text>
           <Text style={styles.price}>${data.min_total_price}</Text>
         </View>
       </Pressable>

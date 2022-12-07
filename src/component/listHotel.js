@@ -8,9 +8,9 @@ import { userLike, userUnlike } from '../redux/user_login';
 import { liking, unliking } from '../redux/wish';
 
 export const ListHotel = ({ data }) => {
-    const { login} = useSelector((state) => state.login)
-    const {like} =useSelector((state)=>state.like)
-    const [color,setColor]  = useState('gray')
+    const { login } = useSelector((state) => state.login)
+    const { like } = useSelector((state) => state.like)
+    const [color, setColor] = useState('gray')
     const navigation = useNavigation()
     const dispach = useDispatch()
     const isSaved = () => {
@@ -30,50 +30,35 @@ export const ListHotel = ({ data }) => {
     }
     console.log(like);
     const ngelike = () => {
-        if (like.length > 0) {
-            // console.log('ada');
-            // console.log(like.length)
-            const isYou = like.find((val)=>val.hotel_name === data.hotel_name)
-            // like.find((val)=>{
-            //     if (val.hotel_name === data.hotel_name) {
-            //         console.log('sama');
-            //     }
-            //     else{
-            //         dispach(liking(data))
-            //         console.log(like);
-            //     }
-            // })
-            // console.log(isYou);
-            // console.log(like);
-            if (isYou) {
-                setColor('gray')
-                dispach(unliking(data.hotel_name))
-            }
-            else{
+        if (login === '') {
+            navigation.push('login')
+        } else {
+
+
+            if (like.length > 0) {
+                const isYou = like.find((val) => val.hotel_name === data.hotel_name)
+                if (isYou) {
+                    setColor('gray')
+                    dispach(unliking(data.hotel_name))
+                }
+                else {
+                    setColor('red')
+                    dispach(liking(data))
+                }
+            } else {
                 setColor('red')
                 dispach(liking(data))
-            }
-        } else {
-            
-            dispach(liking(data))
-            console.log('kosog');
-            console.log(like.length);
+                console.log('kosog');
+                console.log(like.length);
 
+            }
         }
     }
-    // console.log(isSaved);
-    // const favorite = ()=>{
-    //     isSaved
-    //     ?
-    //     console.log('like')
-    //     :
-    //     console.log('hapus like')
-    // }
     const detail = () => {
         navigation.navigate('detail', { description: data })
     }
     return (
-        <View style={[styles.listCity, { backgroundColor: '#fff',zIndex:1 }]}>
+        <View style={[styles.listCity, { backgroundColor: '#fff', zIndex: 1 }]}>
             <Pressable style={[styles.love, { alignItems: 'center', justifyContent: 'center' }]} onPress={ngelike}>
                 <AntDesign name="heart" size={16} color={color} />
             </Pressable>
